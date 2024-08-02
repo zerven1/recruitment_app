@@ -21,8 +21,8 @@ class UsersGroupBloc extends Bloc<UsersGroupEvent, UsersGroupState> {
       GetUsersGroupList event, Emitter<UsersGroupState> emit) async {
     try {
       emit(UsersGroupListLoading());
-      final users = await usersGroupService.getUsersGroupList();
-      emit(UsersGroupListLoaded(usersGroupList: users));
+      final usersGroupList = await usersGroupService.getUsersGroupList();
+      emit(UsersGroupListLoaded(usersGroupList: usersGroupList));
     } catch (e) {
       emit(UsersGroupError(message: e.toString()));
     }
