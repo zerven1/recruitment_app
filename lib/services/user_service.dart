@@ -92,19 +92,19 @@ class UserService {
       whereArgs: [userId],
     );
     print(userId);
-    // await db.delete(
-    //   'user_group_relation',
-    //   where: 'userId = ?',
-    //   whereArgs: [userId],
-    // );
+    await db.delete(
+      'user_group_relation',
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
 
-    // for (var group in updatedUser.joinedGroupsList) {
-    //   final groupId = await db.insert('users_groups', {'name': group.name});
-    //   await db.insert('user_group_relation', {
-    //     'userId': userId,
-    //     'groupId': groupId,
-    //   });
-    // }
+    for (var group in updatedUser.joinedGroupsList) {
+      final groupId = await db.insert('users_groups', {'name': group.name});
+      await db.insert('user_group_relation', {
+        'userId': userId,
+        'groupId': groupId,
+      });
+    }
   }
 
   Future<void> deleteUser(int userId) async {
