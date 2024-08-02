@@ -86,7 +86,7 @@ class _UsersGroupScreenState extends State<UsersGroupScreen> {
             });
           }
           if (state is UsersGroupDeleted) {
-            // usersGroupBloc.add(GetUsersGroupList());
+            usersGroupBloc.add(GetUsersGroupList());
           }
         },
         child: BlocBuilder<UsersGroupBloc, UsersGroupState>(

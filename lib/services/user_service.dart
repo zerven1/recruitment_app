@@ -109,7 +109,6 @@ class UserService {
 
   Future<void> deleteUser(int userId) async {
     final db = await DatabaseService().database;
-    print(userId);
     await db.delete(
       'user_group_relation',
       where: 'userId = ?',
