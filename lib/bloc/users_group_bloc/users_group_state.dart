@@ -32,3 +32,4 @@ class UsersGroupEdited extends UsersGroupState {}
 class UsersGroupDeleting extends UsersGroupState {}
 
 class UsersGroupDeleted extends UsersGroupState {}
+

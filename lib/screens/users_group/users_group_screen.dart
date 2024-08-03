@@ -77,15 +77,18 @@ class _UsersGroupScreenState extends State<UsersGroupScreen> {
       child: BlocListener<UsersGroupBloc, UsersGroupState>(
         listener: (context, state) {
           if (state is UsersGroupListLoading || state is UsersGroupDeleting) {
-            isLoading = true;
-          }
-          if (state is UsersGroupListLoaded) {
-            usersGroupList = state.usersGroupList;
             setState(() {
-              isLoading = false;
+              isLoading = true;
             });
-          }
-          if (state is UsersGroupDeleted) {
+          } else if (state is UsersGroupListLoaded) {
+            setState(() {
+              usersGroupList = state.usersGroupList;
+              setState(() {
+                isLoading = false;
+              });
+              
+            });
+          } else if (state is UsersGroupDeleted) {
             usersGroupBloc.add(GetUsersGroupList());
           }
         },
@@ -159,5 +162,11 @@ class _UsersGroupScreenState extends State<UsersGroupScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    usersGroupBloc.close();
+    super.dispose();
   }
 }

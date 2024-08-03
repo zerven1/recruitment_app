@@ -11,10 +11,8 @@ class LocationService {
         'Accept-Charset': 'utf-8',
       },
     );
-    print(response);
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(utf8.decode(response.bodyBytes));
-      print(jsonResponse);
       return jsonResponse.map((data) => Location.fromJson(data)).toList();
     } else {
       return [];

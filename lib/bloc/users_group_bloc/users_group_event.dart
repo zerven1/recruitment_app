@@ -23,3 +23,4 @@ class DeleteUsersGroup extends UsersGroupEvent {
   const DeleteUsersGroup({required this.usersGroup});
   final UsersGroup usersGroup;
 }
+

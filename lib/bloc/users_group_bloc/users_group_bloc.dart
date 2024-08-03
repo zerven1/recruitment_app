@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recruitment_app/models/user/user.dart';
 import 'package:recruitment_app/models/users_group/users_group.dart';
+import 'package:recruitment_app/services/initial_setup_service.dart';
+import 'package:recruitment_app/services/user_service.dart';
 import 'package:recruitment_app/services/users_group_service.dart';
 
 part 'users_group_event.dart';
@@ -8,13 +11,12 @@ part 'users_group_state.dart';
 
 class UsersGroupBloc extends Bloc<UsersGroupEvent, UsersGroupState> {
   final UsersGroupService usersGroupService;
+
   UsersGroupBloc(this.usersGroupService) : super(UsersGroupInitial()) {
-    on<UsersGroupEvent>((event, emit) {
-      on<GetUsersGroupList>(_getUsersGroupList);
-      on<AddNewUsersGroup>(_addNewUsersGroup);
-      on<EditUsersGroup>(_editUsersGroup);
-      on<DeleteUsersGroup>(_deleteUsersGroup);
-    });
+    on<GetUsersGroupList>(_getUsersGroupList);
+    on<AddNewUsersGroup>(_addNewUsersGroup);
+    on<EditUsersGroup>(_editUsersGroup);
+    on<DeleteUsersGroup>(_deleteUsersGroup);
   }
 
   void _getUsersGroupList(
@@ -62,4 +64,6 @@ class UsersGroupBloc extends Bloc<UsersGroupEvent, UsersGroupState> {
       emit(UsersGroupError(message: e.toString()));
     }
   }
+
 }
+

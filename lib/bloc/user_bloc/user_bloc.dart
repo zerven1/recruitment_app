@@ -57,4 +57,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserError(message: e.toString()));
     }
   }
+
+  Future<void> _getUsersGroupsList(DeleteUser event, Emitter<UserState> emit) async {
+    try {
+      emit(UserDeleting());
+      await userService.deleteUser(event.user.id ?? 0);
+      emit(UserDeleted());
+    } catch (e) {
+      emit(UserError(message: e.toString()));
+    }
+  }
 }

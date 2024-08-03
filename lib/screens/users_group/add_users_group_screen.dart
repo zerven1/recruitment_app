@@ -8,6 +8,9 @@ import 'package:recruitment_app/components/confirm_button.dart';
 import 'package:recruitment_app/models/user/user.dart';
 import 'package:recruitment_app/models/users_group/users_group.dart';
 import 'package:recruitment_app/screens/users/components/user_label.dart';
+import 'package:recruitment_app/services/initial_setup_service.dart';
+import 'package:recruitment_app/services/user_service.dart';
+import 'package:recruitment_app/services/users_group_service.dart';
 
 class AddUsersGroupScreen extends StatefulWidget {
   static const String routeName = "addUsersGroup";
@@ -22,27 +25,31 @@ class _AddUsersGroupScreenState extends State<AddUsersGroupScreen> {
   late UsersGroupBloc usersGroupBloc;
   TextEditingController nameController = TextEditingController();
   bool isLoading = false;
+  static List<User> usersList = [];
+  List<User> selectedUsersList = [];
 
   @override
   void initState() {
     super.initState();
     usersGroupBloc = BlocProvider.of<UsersGroupBloc>(context);
+    WidgetsBinding.instance.addPostFrameCallback((_){
+    fillUsersList();
+  });
   }
 
   void addUsersGroup() {
     UsersGroup usersGroup = UsersGroup(
       name: nameController.text,
-      users: usersList,
+      users: selectedUsersList,
     );
     usersGroupBloc.add(AddNewUsersGroup(usersGroup: usersGroup));
   }
 
-  static List<User> usersList = [];
-
-  final _items = usersList
-      .map((user) =>
-          MultiSelectItem<User>(user, "${user.firstName} ${user.lastName}"))
-      .toList();
+    Future<void> fillUsersList()async{
+    usersList = await getIt<UserService>().getUsersList();
+    setState(() {
+    });
+  }     
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +59,11 @@ class _AddUsersGroupScreenState extends State<AddUsersGroupScreen> {
           isLoading = true;
         }
         if (state is UsersGroupAdded) {
-          isLoading = false;
-          usersGroupBloc.add(GetUsersGroupList());
+          setState(() {
+            isLoading = false;
+          });
+          
+         usersGroupBloc.add(GetUsersGroupList());
           Navigator.of(context).pop();
         }
         if (state is UsersGroupError) {
@@ -67,6 +77,10 @@ class _AddUsersGroupScreenState extends State<AddUsersGroupScreen> {
       },
       child: BlocBuilder<UsersGroupBloc, UsersGroupState>(
         builder: (context, state) {
+            final _items = usersList
+      .map((user) =>
+          MultiSelectItem<User>(user, "${user.firstName} ${user.lastName}"))
+      .toList();
           return Scaffold(
             appBar: AppBar(
               title: const Text("Add new users group"),
@@ -88,7 +102,9 @@ class _AddUsersGroupScreenState extends State<AddUsersGroupScreen> {
                         UserLabel(title: "Available users"),
                         MultiSelectDialogField(
                           items: _items,
-                          onConfirm: (list) {},
+                          onConfirm: (list) {
+                            selectedUsersList = list;
+                          },
                           title: Text("Users"),
                           searchable: true,
                           selectedColor: Colors.black,

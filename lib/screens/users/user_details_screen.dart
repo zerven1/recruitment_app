@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recruitment_app/models/user/user.dart';
 import 'package:recruitment_app/models/users_group/users_group.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 
 class UserDetailsScreen extends StatelessWidget {
   static const String routeName = "userDetails";
@@ -11,7 +10,6 @@ class UserDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(user.joinedGroupsList);
     return Scaffold(
       appBar: AppBar(
         title: const Text("User data"),
@@ -42,15 +40,6 @@ class UserDetailsScreen extends StatelessWidget {
               right: 16.0,
               top: 16.0,
             ),
-            child: Text(
-              "Joined Users Groups",
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-          _UserJoinedGroups(
-            joinedUserGroups: user.joinedGroupsList,
           ),
         ],
       ),
@@ -77,53 +66,22 @@ class _UserDataRow extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
-          Expanded(
+          const Expanded(
             child: SizedBox(),
           ),
           Flexible(
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
               ),
-              maxLines: 3,
+              maxLines: 10,
               textAlign: TextAlign.end,
               overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _UserJoinedGroups extends StatelessWidget {
-  const _UserJoinedGroups({
-    required this.joinedUserGroups,
-  });
-  final List<UsersGroup> joinedUserGroups;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                UsersGroup usersGroup = joinedUserGroups[index];
-                return ListTile(
-                  title: Text('Name: ${usersGroup.name}'),
-                  subtitle: Text(
-                    "Number of users: ${usersGroup.users.length}",
-                  ),
-                );
-              },
-              childCount: joinedUserGroups.length,
             ),
           ),
         ],
