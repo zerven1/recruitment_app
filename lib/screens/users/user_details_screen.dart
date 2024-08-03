@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recruitment_app/models/user/user.dart';
-import 'package:recruitment_app/models/users_group/users_group.dart';
 
 class UserDetailsScreen extends StatelessWidget {
   static const String routeName = "userDetails";
