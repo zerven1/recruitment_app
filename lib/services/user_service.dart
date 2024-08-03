@@ -15,7 +15,7 @@ class UserService {
         lastName: userMap['lastName'],
         birthDate: userMap['birthDate'],
         address: userMap['address'],
-        joinedGroupsList: [], // Brak relacji z grupami
+        joinedGroupsList: [],
       ));
     }
 
@@ -25,7 +25,6 @@ class UserService {
   Future<void> insertUser(User user) async {
     final db = await DatabaseService().database;
 
-    // Dodanie użytkownika
     await db.insert('users', {
       'firstName': user.firstName,
       'lastName': user.lastName,
@@ -37,7 +36,6 @@ class UserService {
   Future<void> updateUser(int userId, User updatedUser) async {
     final db = await DatabaseService().database;
 
-    // Aktualizacja danych użytkownika
     await db.update(
       'users',
       {
@@ -54,14 +52,12 @@ class UserService {
   Future<void> deleteUser(int userId) async {
     final db = await DatabaseService().database;
 
-    // Usunięcie użytkownika
     await db.delete(
       'users',
       where: 'id = ?',
       whereArgs: [userId],
     );
 
-    // Usunięcie wszystkich relacji użytkownika z grupami
     await db.delete(
       'user_group_relation',
       where: 'userId = ?',
